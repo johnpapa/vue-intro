@@ -40,8 +40,30 @@ export default {
     }
   },
 
+  beforeCreate() {
+    console.log('*** lifecycle: beforeCreate');
+  },
+  created() {
+    console.log('*** lifecycle: created');
+  },
+  beforeMounted() {
+    console.log('*** lifecycle: beforeMounte');
+  },
   mounted() {
     this.setFocus();
+    console.log('*** lifecycle: mounted');
+  },
+  beforeUpdate() {
+    console.log('*** lifecycle: beforeUpdate');
+  },
+  updated() {
+    console.log('*** lifecycle: updated');
+  },
+  beforeDestroy() {
+    console.log('*** lifecycle: beforeDestroy');
+  },
+  destroyed() {
+    console.log('*** lifecycle: destroyed');
   },
 
   methods: {
