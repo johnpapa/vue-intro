@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HeroList from '@/components/HeroList';
+import PeopleList from '@/components/PeopleList';
+import PlanetList from '@/components/PlanetList';
 
 Vue.use(Router);
 
@@ -8,8 +9,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HeroList',
-      component: HeroList
+      name: 'PeopleList',
+      component: PeopleList
+    },
+    {
+      path: '/planets',
+      name: 'PlanetList',
+      component: PlanetList
     }
   ]
 });

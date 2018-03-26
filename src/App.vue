@@ -1,6 +1,8 @@
 <template>
   <div id="app">
     <h1>{{ title }}</h1>
+    <router-link to="/">People</router-link>
+    <router-link to="/planets">Planets</router-link>
     <div class="header-bar"></div>
     <router-view/>
   </div>
@@ -10,7 +12,7 @@
 export default {
   data() {
     return {
-      title: 'My Vue Heroes App'
+      title: 'My Vue Star Wars App'
     };
   }
 };

@@ -1,96 +1,96 @@
 <template>
   <div>
     <div class="button-group">
-      <button @click="getHeroes">Refresh</button>
-      <button @click="enableAddMode" v-if="!addingHero && !selectedHero">Add</button>
+      <button @click="getPeople">Refresh</button>
+      <button @click="enableAddMode" v-if="!addingPerson && !selectedPerson">Add</button>
     </div>
-    <ul class="heroes" v-if="heroes && heroes.length">
-      <li v-for="hero in heroes" :key="hero.id"
-        class="hero-container"
-        :class="{selected: hero === selectedHero}">
-        <div class="hero-element">
-          <div class="badge" >{{hero.id}}</div>
-          <div class="hero-text" @click="onSelect(hero)">
-            <div class="name">{{hero.name}}</div>
-            <div class="birth-year">{{hero.birth_year}}</div>
+    <ul class="people" v-if="people && people.length">
+      <li v-for="person in people" :key="person.id"
+        class="person-container"
+        :class="{selected: person === selectedPerson}">
+        <div class="person-element">
+          <div class="badge" >{{person.id}}</div>
+          <div class="person-text" @click="onSelect(person)">
+            <div class="name">{{person.name}}</div>
+            <div class="birth-year">{{person.birth_year}}</div>
           </div>
         </div>
-        <button class="delete-button" @click="deleteHero(hero)">Delete</button>
+        <button class="delete-button" @click="deletePerson(person)">Delete</button>
       </li>
     </ul>
-    <HeroDetail
-      v-if="selectedHero || addingHero"
-      :hero="selectedHero"
+    <PersonDetail
+      v-if="selectedPerson || addingPerson"
+      :person="selectedPerson"
       @unselect="unselect"
-      @heroChanged="save">
-    </HeroDetail>
+      @personChanged="save">
+    </PersonDetail>
   </div>
 </template>
 
 <script>
-import heroService from '../hero.service.js';
-import HeroDetail from './HeroDetail.vue';
+import dataService from '../data.service.js';
+import PersonDetail from './PersonDetail.vue';
 
 export default {
   data() {
     return {
-      addingHero: false,
-      selectedHero: null,
-      heroes: []
+      addingPerson: false,
+      selectedPerson: null,
+      people: []
     };
   },
 
   components: {
-    HeroDetail
+    PersonDetail
   },
 
   created() {
-    this.getHeroes();
+    this.getPeople();
   },
 
   methods: {
     clear() {
-      this.addingHero = false;
-      this.selectedHero = null;
+      this.addingPerson = false;
+      this.selectedPerson = null;
     },
 
-    deleteHero(hero) {
-      this.heroes = this.heroes.filter(h => h !== hero);
-      if (this.selectedHero === hero) {
-        this.selectedHero = null;
+    deletePerson(person) {
+      this.people = this.people.filter(h => h !== person);
+      if (this.selectedPerson === person) {
+        this.selectedPerson = null;
         this.clear();
       }
     },
 
     enableAddMode() {
-      this.addingHero = true;
-      this.selectedHero = null;
+      this.addingPerson = true;
+      this.selectedPerson = null;
     },
 
-    getHeroes() {
-      this.heroes = [];
+    getPeople() {
+      this.people = [];
       this.clear();
-      return heroService.getHeroes().then(heroes => (this.heroes = heroes));
+      return dataService.getPeople().then(people => (this.people = people));
     },
 
-    onSelect(hero) {
-      this.selectedHero = hero;
+    onSelect(person) {
+      this.selectedPerson = person;
     },
 
     save(arg) {
-      const hero = arg.hero;
-      console.log('hero changed', hero);
+      const person = arg.person;
+      console.log('person changed', person);
       if (arg.mode === 'add') {
-        this.heroes.push(hero);
+        this.people.push(person);
       } else {
-        const index = this.heroes.findIndex(h => hero.id === h.id);
-        this.heroes.splice(index, 1, hero);
+        const index = this.people.findIndex(h => person.id === h.id);
+        this.people.splice(index, 1, person);
       }
     },
 
     unselect() {
-      this.addingHero = false;
-      this.selectedHero = null;
+      this.addingPerson = false;
+      this.selectedPerson = null;
     }
   }
 };
@@ -112,7 +112,7 @@ button.delete-button {
   background-color: rgb(0, 120, 215) !important;
   color: white;
 }
-.heroes {
+.people {
   float: left;
   margin: 0 0 2em 0;
   list-style-type: none;
@@ -145,14 +145,14 @@ button.delete-button {
   .name {
     font-weight: bold;
   }
-  .hero-container {
+  .person-container {
     display: flex;
     flex-flow: row wrap;
   }
   > * {
     flex: 1 100%;
   }
-  .hero-element {
+  .person-element {
     display: flex;
     flex-flow: row wrap;
     flex: 18 auto;
@@ -165,7 +165,7 @@ button.delete-button {
     order: 2;
     border-radius: 0 4px 4px 0;
   }
-  .hero-text {
+  .person-text {
     flex: 1 auto;
     order: 2;
     padding: 0.2em 0.5em;

@@ -4,16 +4,16 @@
       <div class="editfields">
         <div>
           <label>id: </label>
-          <input v-if="addingHero" type="number" v-model="editingHero.id" ref="id" placeholder="id" />
-          <label v-if="!addingHero" class="value">{{editingHero.id}}</label>
+          <input v-if="addingPerson" type="number" v-model="editingPerson.id" ref="id" placeholder="id" />
+          <label v-if="!addingPerson" class="value">{{editingPerson.id}}</label>
         </div>
         <div>
           <label>name: </label>
-          <input v-model="editingHero.name" ref="name" placeholder="name" />
+          <input v-model="editingPerson.name" ref="name" placeholder="name" />
         </div>
         <div>
           <label>birth year: </label>
-          <input v-model="editingHero.birth_year" placeholder="birth year" @keyup.enter="save"/>
+          <input v-model="editingPerson.birth_year" placeholder="birth year" @keyup.enter="save"/>
         </div>
       </div>
       <button @click="clear">Cancel</button>
@@ -24,18 +24,18 @@
 
 <script>
 export default {
-  props: { hero: { type: Object } },
+  props: { person: { type: Object } },
 
   data() {
     return {
-      addingHero: !this.hero,
-      editingHero: this.cloneIt()
+      addingPerson: !this.person,
+      editingPerson: this.cloneIt()
     };
   },
 
   watch: {
-    hero() {
-      this.editingHero = this.cloneIt();
+    person() {
+      this.editingPerson = this.cloneIt();
       this.setFocus();
     }
   },
@@ -46,42 +46,42 @@ export default {
 
   methods: {
     setFocus() {
-      if (this.addingHero && this.editingHero) {
+      if (this.addingPerson && this.editingPerson) {
         this.$refs.id.focus();
       } else {
         this.$refs.name.focus();
       }
     },
 
-    addHero() {
-      const hero = this.editingHero;
+    addPerson() {
+      const person = this.editingPerson;
       this.emitRefresh('add');
     },
 
     clear() {
       this.$emit('unselect');
-      this.editingHero = null;
+      this.editingPerson = null;
     },
 
     cloneIt() {
-      return Object.assign({}, this.hero);
+      return Object.assign({}, this.person);
     },
 
     emitRefresh(mode) {
-      this.$emit('heroChanged', { mode: mode, hero: this.editingHero });
+      this.$emit('personChanged', { mode: mode, person: this.editingPerson });
       this.clear();
     },
 
     save() {
-      if (this.addingHero) {
-        this.addHero();
+      if (this.addingPerson) {
+        this.addPerson();
       } else {
-        this.updateHero();
+        this.updatePerson();
       }
     },
 
-    updateHero() {
-      const hero = this.editingHero;
+    updatePerson() {
+      const person = this.editingPerson;
       this.emitRefresh('update');
     }
   }
