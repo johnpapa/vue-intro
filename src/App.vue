@@ -6,9 +6,7 @@
       <router-link to="/planets">Planets</router-link>
       <div class="header-bar"></div>
     </nav>
-    <transition :name="transitionName" mode="out-in">
-      <router-view/>
-    </transition>
+    <router-view/>
   </div>
 </template>
 
@@ -16,14 +14,41 @@
 export default {
   data() {
     return {
-      title: 'My Vue Star Wars App',
-      transitionName: 'fade'
+      title: 'My Vue Star Wars App'
     };
   }
 };
 </script>
 
 <style lang="scss">
+.list-complete-item {
+  transition: all 1s;
+  display: inline-block;
+  margin-top: 10px !important;
+}
+
+.list-complete-enter,
+.list-complete-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+.list-complete-leave-active {
+  position: absolute;
+}
+
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s;
+}
+.list-enter,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;
@@ -47,6 +72,9 @@ export default {
   opacity: 0;
   -webkit-transform: translate(-30px, 0);
   transform: translate(-30px, 0);
+}
+.flip-list-move {
+  transition: transform 1s;
 }
 body,
 input[text],

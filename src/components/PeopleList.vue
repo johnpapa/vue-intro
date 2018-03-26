@@ -4,20 +4,20 @@
       <button @click="getPeople">Refresh</button>
       <button @click="enableAddMode" v-if="!addingPerson && !selectedPerson">Add</button>
     </div>
-    <ul class="people" v-if="people && people.length">
-      <li v-for="person in people" :key="person.id"
-        class="person-container"
-        :class="{selected: person === selectedPerson}">
-        <div class="person-element">
-          <div class="badge" >{{person.id}}</div>
-          <div class="person-text" @click="onSelect(person)">
-            <div class="name">{{person.name}}</div>
-            <div class="birth-year">{{person.birth_year}}</div>
+    <transition-group name="list-complete" tag="ul" mode="out-in" class="people" v-if="people && people.length">
+        <li v-for="person in people" :key="person.id"
+          class="person-container list-complete-item"
+          :class="{selected: person === selectedPerson}">
+          <div class="person-element">
+            <div class="badge" >{{person.id}}</div>
+            <div class="person-text" @click="onSelect(person)">
+              <div class="name">{{person.name}}</div>
+              <div class="birth-year">{{person.birth_year}}</div>
+            </div>
           </div>
-        </div>
-        <button class="delete-button" @click="deletePerson(person)">Delete</button>
-      </li>
-    </ul>
+          <button class="delete-button" @click="deletePerson(person)">Delete</button>
+        </li>
+    </transition-group>
     <PersonDetail
       v-if="selectedPerson || addingPerson"
       :person="selectedPerson"
