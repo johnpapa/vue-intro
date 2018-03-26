@@ -34,7 +34,9 @@ export default {
   },
 
   watch: {
-    person() {
+    person(newPerson, originalPerson) {
+      console.log(newPerson.name);
+      console.log(originalPerson.name);
       this.editingPerson = this.cloneIt();
       this.setFocus();
     }
