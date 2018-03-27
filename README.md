@@ -2,9 +2,19 @@
 
 > A Vue.js project
 
+## Links
+
+* [Slides](http://slides.com/johnpapa/introvue)
+* [Vue Docs](https://vuejs.org)
+* [VS Code](https://aka.ms/codeit)
+* [Vue Dev Tools](https://jpapa.me/vuedevtools)
+* [Vue Extensions](https://aka.ms/jp-codevue)
+* [Extension Marketplace](https://aka.ms/jp-codeext)
+* [Code Examples in Github](https://jpapa.me/vueintro)
+
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 
