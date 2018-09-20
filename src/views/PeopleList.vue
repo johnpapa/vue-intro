@@ -42,10 +42,7 @@ export default {
   },
 
   computed: {
-    people() {
-      return this.$store.state.people.people;
-    },
-    // ...mapGetters('people', { people: 'sortedPeople' }),
+    ...mapGetters('people', { people: 'sortedPeople' }),
   },
 
   methods: {
