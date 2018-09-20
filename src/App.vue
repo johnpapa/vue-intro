@@ -152,8 +152,9 @@ input {
   }
 }
 .router-link-active {
-  padding: 4px;
+  padding: 8px;
   background-color: rgb(0, 120, 215);
   color: white;
+  border-radius: 4px;
 }
 </style>
