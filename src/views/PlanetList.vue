@@ -4,11 +4,9 @@
       <button @click="getPlanets">Refresh</button>
     </div>
     <ul class="planets" v-if="planets && planets.length">
-      <li v-for="planet in planets" :key="planet.id"
-        class="planet-container"
-        :class="{selected: planet === selectedPlanet}">
+      <li v-for="planet in planets" :key="planet.id" class="planet-container" :class="{selected: planet === selectedPlanet}">
         <div class="planet-element">
-          <div class="badge" >{{planet.id}}</div>
+          <div class="badge">{{planet.id}}</div>
           <div class="planet-text" @click="onSelect(planet)">
             <div class="name">{{planet.name}}</div>
             <div class="terrain">{{planet.terrain}}</div>
@@ -20,39 +18,47 @@
 </template>
 
 <script>
-import dataService from '../data.service.js';
+import axios from 'axios';
+import config from '@/shared/config';
+
+const { API } = config;
 
 export default {
   data() {
     return {
       selectedPlanet: null,
-      planets: []
+      planets: [],
     };
   },
-
   created() {
     this.getPlanets();
   },
-
   methods: {
     clear() {
       this.selectedPlanet = null;
     },
-
     getPlanets() {
       this.planets = [];
       this.clear();
-      return dataService.getPlanets().then(planets => (this.planets = planets));
+      return this.getPlanetsData().then(planets => (this.planets = planets));
     },
-
+    getPlanetsData() {
+      let index = 1;
+      return axios.get(`${API}/planets/`).then(response => {
+        const planets = response.data.results.map(h => {
+          h.id = index++;
+          return h;
+        });
+        return planets;
+      });
+    },
     onSelect(planet) {
       this.selectedPlanet = planet;
     },
-
     unselect() {
       this.selectedPlanet = null;
-    }
-  }
+    },
+  },
 };
 </script>
 

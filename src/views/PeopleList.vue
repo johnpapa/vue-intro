@@ -5,43 +5,39 @@
       <button @click="enableAddMode" v-if="!addingPerson && !selectedPerson">Add</button>
     </div>
     <transition-group name="list-complete" tag="ul" mode="out-in" class="people" v-if="people && people.length">
-        <li v-for="person in people" :key="person.id"
-          class="person-container list-complete-item"
-          :class="{selected: person === selectedPerson}">
-          <div class="person-element">
-            <div class="badge" >{{person.id}}</div>
-            <div class="person-text" @click="onSelect(person)">
-              <div class="name">{{person.name}}</div>
-              <div class="birth-year">{{person.birth_year}}</div>
-            </div>
+      <li v-for="person in people" :key="person.id" class="person-container list-complete-item" :class="{selected: person === selectedPerson}">
+        <div class="person-element">
+          <div class="badge">{{person.id}}</div>
+          <div class="person-text" @click="onSelect(person)">
+            <div class="name">{{person.name}}</div>
+            <div class="birth-year">{{person.birth_year}}</div>
           </div>
-          <button class="delete-button" @click="deletePerson(person)">Delete</button>
-        </li>
+        </div>
+        <button class="delete-button" @click="deletePerson(person)">Delete</button>
+      </li>
     </transition-group>
-    <PersonDetail
-      v-if="selectedPerson || addingPerson"
-      :person="selectedPerson"
-      @unselect="unselect"
-      @personChanged="save">
+    <PersonDetail v-if="selectedPerson || addingPerson" :person="selectedPerson" @unselect="unselect" @personChanged="save">
     </PersonDetail>
   </div>
 </template>
 
 <script>
-import dataService from '../data.service.js';
-import PersonDetail from './PersonDetail.vue';
+import axios from 'axios';
+import PersonDetail from '@/components/PersonDetail.vue';
+import config from '@/shared/config';
+
+const { API } = config;
 
 export default {
   data() {
     return {
       addingPerson: false,
       selectedPerson: null,
-      people: []
+      people: [],
     };
   },
-
   components: {
-    PersonDetail
+    PersonDetail,
   },
 
   created() {
@@ -70,9 +66,19 @@ export default {
     getPeople() {
       this.people = [];
       this.clear();
-      return dataService.getPeople().then(people => (this.people = people));
+      return this.getPeopleData().then(people => (this.people = people));
     },
 
+    getPeopleData() {
+      let index = 1;
+      return axios.get(`${API}/people/`).then(response => {
+        const people = response.data.results.map(h => {
+          h.id = index++;
+          return h;
+        });
+        return people;
+      });
+    },
     onSelect(person) {
       this.selectedPerson = person;
     },
@@ -91,8 +97,8 @@ export default {
     unselect() {
       this.addingPerson = false;
       this.selectedPerson = null;
-    }
-  }
+    },
+  },
 };
 </script>
 

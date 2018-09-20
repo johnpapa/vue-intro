@@ -13,7 +13,7 @@
         </div>
         <div>
           <label>birth year: </label>
-          <input v-model="editingPerson.birth_year" placeholder="birth year" @keyup.enter="save"/>
+          <input v-model="editingPerson.birth_year" placeholder="birth year" @keyup.enter="save" />
         </div>
       </div>
       <button @click="clear">Cancel</button>
@@ -24,12 +24,17 @@
 
 <script>
 export default {
-  props: { person: { type: Object } },
+  props: {
+    person: {
+      type: Object,
+      default() {},
+    },
+  },
 
   data() {
     return {
       addingPerson: !this.person,
-      editingPerson: this.cloneIt()
+      editingPerson: this.cloneIt(),
     };
   },
 
@@ -39,7 +44,7 @@ export default {
       console.log(originalPerson.name);
       this.editingPerson = this.cloneIt();
       this.setFocus();
-    }
+    },
   },
 
   beforeCreate() {
@@ -78,7 +83,7 @@ export default {
     },
 
     addPerson() {
-      const person = this.editingPerson;
+      // const person = this.editingPerson;
       this.emitRefresh('add');
     },
 
@@ -105,10 +110,10 @@ export default {
     },
 
     updatePerson() {
-      const person = this.editingPerson;
+      // const person = this.editingPerson;
       this.emitRefresh('update');
-    }
-  }
+    },
+  },
 };
 </script>
 

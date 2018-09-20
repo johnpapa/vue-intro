@@ -2,8 +2,20 @@
   <div id="app">
     <h1>{{ title }}</h1>
     <nav>
-      <router-link to="/">People</router-link>
-      <router-link to="/planets">Planets</router-link>
+      <ul>
+        <li class="nav-item">
+          <router-link class="nav-link" exact to="/">Home</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" exact to="/people">People</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" exact to="/planets">Planets</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" exact to="/about">About</router-link>
+        </li>
+      </ul>
       <div class="header-bar"></div>
     </nav>
     <router-view/>
@@ -14,13 +26,23 @@
 export default {
   data() {
     return {
-      title: 'My Vue Star Wars App'
+      title: 'My Vue Star Wars App',
     };
-  }
+  },
 };
 </script>
 
 <style lang="scss">
+.nav-item {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 22px;
+  color: inherit;
+}
+.nav-link {
+  text-decoration: none;
+  color: inherit;
+}
 .list-complete-item {
   transition: all 1s;
   display: inline-block;
@@ -128,5 +150,10 @@ input {
     font-size: 12px;
     letter-spacing: 3px;
   }
+}
+.router-link-active {
+  padding: 4px;
+  background-color: rgb(0, 120, 215);
+  color: white;
 }
 </style>
