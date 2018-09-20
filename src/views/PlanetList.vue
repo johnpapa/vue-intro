@@ -2,61 +2,66 @@
   <div>
     <div class="button-group">
       <button @click="getPlanets">Refresh</button>
+      <button @click="enableAddMode" v-if="!addingPlanet && !selectedPlanet">Add</button>
     </div>
-    <ul class="planets" v-if="planets && planets.length">
+    <transition-group name="list-complete" tag="ul" mode="out-in" class="planets" v-if="planets && planets.length">
       <li v-for="planet in planets" :key="planet.id" class="list-container" :class="{selected: planet === selectedPlanet}">
         <div class="list-element">
           <div class="badge">{{planet.id}}</div>
           <div class="item-text" @click="onSelect(planet)">
             <div class="name">{{planet.name}}</div>
-            <div class="sub-text">{{planet.terrain | ellipsis(30)}}</div>
+            <div class="sub-text">{{planet.terrain | ellipsis(22)}}</div>
           </div>
         </div>
+        <button class="delete-button" @click="deletePlanetAndReset(planet)">Delete</button>
       </li>
-    </ul>
+    </transition-group>
+    <PlanetDetail v-if="selectedPlanet || addingPlanet" :planet="selectedPlanet" @unselect="clear" @planetChanged="save">
+    </PlanetDetail>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import config from '@/shared/config';
-
-const { API } = config;
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+import PlanetDetail from '@/components/PlanetDetail.vue';
 
 export default {
   data() {
     return {
       selectedPlanet: null,
-      planets: [],
+      addingPlanet: false,
     };
+  },
+  components: {
+    PlanetDetail,
+  },
+  computed: {
+    ...mapGetters('planets', { planets: 'sortedPlanets' }),
   },
   created() {
     this.getPlanets();
   },
   methods: {
+    ...mapActions('planets', ['getPlanets']),
+    ...mapMutations('planets', ['addPlanet', 'deletePlanet', 'updatePlanet']),
     clear() {
+      this.addingPlanet = false;
       this.selectedPlanet = null;
     },
-    getPlanets() {
-      this.planets = [];
+    deletePlanetAndReset(planet) {
+      this.deletePlanet(planet);
       this.clear();
-      return this.getPlanetsData().then(planets => (this.planets = planets));
     },
-    getPlanetsData() {
-      let index = 1;
-      return axios.get(`${API}/planets/`).then(response => {
-        const planets = response.data.results.map(h => {
-          h.id = index++;
-          return h;
-        });
-        return planets;
-      });
+    enableAddMode() {
+      this.addingPlanet = true;
+      this.selectedPlanet = null;
     },
     onSelect(planet) {
       this.selectedPlanet = planet;
     },
-    unselect() {
-      this.selectedPlanet = null;
+    save(arg) {
+      const planet = arg.planet;
+      arg.mode === 'add' ? this.addPlanet(planet) : this.updatePlanet(planet);
     },
   },
 };

@@ -42,10 +42,10 @@ export default {
   },
 
   computed: {
-    // people() {
-    //   return this.$store.state.people.people;
-    // },
-    ...mapGetters('people', { people: 'sortedPeople' }),
+    people() {
+      return this.$store.state.people.people;
+    },
+    // ...mapGetters('people', { people: 'sortedPeople' }),
   },
 
   methods: {
@@ -74,11 +74,7 @@ export default {
     save(arg) {
       const person = arg.person;
       console.log('person changed', person);
-      if (arg.mode === 'add') {
-        this.addPerson(person);
-      } else {
-        this.updatePerson(person);
-      }
+      arg.mode === 'add' ? this.addPerson(person) : this.updatePerson(person);
     },
   },
 };

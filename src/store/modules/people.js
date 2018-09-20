@@ -19,10 +19,10 @@ export default {
       // this.people.splice(index, 1, person);
     },
     getPeople(state, people) {
-      state.people = [...people];
+      state.people = people;
     },
     deletePerson(state, person) {
-      state.people = [...state.people.filter(p => p.id !== person.id)];
+      state.people = state.people.filter(p => p.id !== person.id);
     },
   },
   actions: {
@@ -32,9 +32,9 @@ export default {
       return axios
         .get(`${API}/people`)
         .then(response => {
-          const people = response.data.results.map(h => {
-            h.id = index++;
-            return h;
+          const people = response.data.results.map(p => {
+            p.id = index++;
+            return p;
           });
           commit('getPeople', people);
           return people;

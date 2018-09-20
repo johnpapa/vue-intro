@@ -1,4 +1,5 @@
 export default function(text, maxlength) {
-  const shortText = text.substring(1, maxlength);
-  return `${shortText}...`;
+  const shortText = text.substring(0, maxlength);
+  const dots = shortText.length < text.length ? '...' : '';
+  return `${shortText}${dots}`;
 }

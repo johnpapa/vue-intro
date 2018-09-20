@@ -4,16 +4,16 @@
       <div class="editfields">
         <div>
           <label>id: </label>
-          <input v-if="addingPerson" type="number" v-model="editingPerson.id" ref="id" placeholder="id" />
-          <label v-if="!addingPerson" class="value">{{editingPerson.id}}</label>
+          <input v-if="addingPlanet" type="number" v-model="editingPlanet.id" ref="id" placeholder="id" />
+          <label v-if="!addingPlanet" class="value">{{editingPlanet.id}}</label>
         </div>
         <div>
           <label>name: </label>
-          <input v-model="editingPerson.name" ref="name" placeholder="name" />
+          <input v-model="editingPlanet.name" ref="name" placeholder="name" />
         </div>
         <div>
           <label>birth year: </label>
-          <input v-model="editingPerson.birth_year" placeholder="birth year" @keyup.enter="save" />
+          <input v-model="editingPlanet.terrain" placeholder="terrain" @keyup.enter="save" />
         </div>
       </div>
       <button @click="clear">Cancel</button>
@@ -25,7 +25,7 @@
 <script>
 export default {
   props: {
-    person: {
+    planet: {
       type: Object,
       default() {},
     },
@@ -33,16 +33,16 @@ export default {
 
   data() {
     return {
-      addingPerson: !this.person,
-      editingPerson: { ...this.person },
+      addingPlanet: !this.planet,
+      editingPlanet: { ...this.planet },
     };
   },
 
   watch: {
-    person(newPerson, originalPerson) {
-      console.log(newPerson.name);
-      console.log(originalPerson.name);
-      this.editingPerson = { ...this.person };
+    planet(newPlanet, originalPlanet) {
+      console.log(newPlanet.name);
+      console.log(originalPlanet.name);
+      this.editingPlanet = { ...this.planet };
       this.setFocus();
     },
   },
@@ -53,32 +53,32 @@ export default {
 
   methods: {
     setFocus() {
-      if (this.addingPerson && this.editingPerson) {
+      if (this.addingPlanet && this.editingPlanet) {
         this.$refs.id.focus();
       } else {
         this.$refs.name.focus();
       }
     },
 
-    addPerson() {
+    addPlanet() {
       this.emitRefresh('add');
     },
 
     clear() {
       this.$emit('unselect');
-      this.editingPerson = null;
+      this.editingPlanet = null;
     },
 
     emitRefresh(mode) {
-      this.$emit('personChanged', { mode, person: this.editingPerson });
+      this.$emit('planetChanged', { mode, planet: this.editingPlanet });
       this.clear();
     },
 
     save() {
-      this.addingPerson ? this.addPerson() : this.updatePerson();
+      this.addingPlanet ? this.addPlanet() : this.updatePlanet();
     },
 
-    updatePerson() {
+    updatePlanet() {
       this.emitRefresh('update');
     },
   },
