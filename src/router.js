@@ -1,6 +1,6 @@
 import Home from '@/views/Home.vue';
-import PeopleList from '@/views/PeopleList.vue';
-import PlanetList from '@/views/PlanetList.vue';
+// import PeopleList from '@/views/PeopleList.vue';
+// import PlanetList from '@/views/PlanetList.vue';
 import Vue from 'vue';
 import Router from 'vue-router';
 
@@ -18,12 +18,16 @@ export default new Router({
     {
       path: '/people',
       name: 'PeopleList',
-      component: PeopleList,
+      // component: PeopleList,
+      component: () =>
+        import(/* webpackChunkName: "people" */ './views/PeopleList.vue'),
     },
     {
       path: '/planets',
       name: 'PlanetList',
-      component: PlanetList,
+      // component: PlanetList,
+      component: () =>
+        import(/* webpackChunkName: "planets" */ './views/PlanetList.vue'),
     },
     {
       path: '/about',
