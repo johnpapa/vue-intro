@@ -1,5 +1,11 @@
 import config from '@/shared/config';
 import axios from 'axios';
+import {
+  ADD_PLANET,
+  DELETE_PLANET,
+  GET_PLANETS,
+  UPDATE_PLANET,
+} from './mutation-types';
 
 const { API } = config;
 
@@ -10,10 +16,10 @@ export default {
     planets: [],
   },
   mutations: {
-    addPlanet(state, planet) {
+    [ADD_PLANET](state, planet) {
       state.planets.push(planet);
     },
-    updatePlanet(state, planet) {
+    [UPDATE_PLANET](state, planet) {
       state.planets = [
         ...state.planets.filter(p => p.id !== planet.id),
         planet,
@@ -21,10 +27,10 @@ export default {
       // const index = this.planets.findIndex(h => planet.id === h.id);
       // this.planets.splice(index, 1, planet);
     },
-    getPlanets(state, planets) {
+    [GET_PLANETS](state, planets) {
       state.planets = planets;
     },
-    deletePlanet(state, planet) {
+    [DELETE_PLANET](state, planet) {
       state.planets = state.planets.filter(p => p.id !== planet.id);
     },
   },
@@ -39,7 +45,7 @@ export default {
             p.id = index++;
             return p;
           });
-          commit('getPlanets', planets);
+          commit(GET_PLANETS, planets);
           return planets;
         })
         .catch(console.error);

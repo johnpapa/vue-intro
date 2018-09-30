@@ -3,6 +3,8 @@ import Vuex from 'vuex';
 import peopleModule from './modules/people';
 import planetsModule from './modules/planets';
 
+export * from './modules/mutation-types';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({

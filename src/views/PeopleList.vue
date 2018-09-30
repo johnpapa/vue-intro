@@ -24,6 +24,7 @@
 <script>
 import PersonDetail from '@/components/PersonDetail.vue';
 import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { ADD_PERSON, UPDATE_PERSON, DELETE_PERSON } from '@/store';
 
 export default {
   name: 'PeopleList',
@@ -47,7 +48,7 @@ export default {
 
   methods: {
     ...mapActions('people', ['getPeople']),
-    ...mapMutations('people', ['addPerson', 'deletePerson', 'updatePerson']),
+    ...mapMutations('people', [ADD_PERSON, UPDATE_PERSON, DELETE_PERSON]),
 
     clear() {
       this.addingPerson = false;
@@ -55,7 +56,7 @@ export default {
     },
 
     deletePersonAndReset(person) {
-      this.deletePerson(person);
+      this.DELETE_PERSON(person);
       this.clear();
     },
 
@@ -71,7 +72,7 @@ export default {
     save(arg) {
       const person = arg.person;
       console.log('person changed', person);
-      arg.mode === 'add' ? this.addPerson(person) : this.updatePerson(person);
+      arg.mode === 'add' ? this.ADD_PERSON(person) : this.UPDATE_PERSON(person);
     },
   },
 };

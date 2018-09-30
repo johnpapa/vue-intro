@@ -24,6 +24,7 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import PlanetDetail from '@/components/PlanetDetail.vue';
+import { ADD_PLANET, UPDATE_PLANET, DELETE_PLANET } from '@/store';
 
 export default {
   data() {
@@ -43,13 +44,13 @@ export default {
   },
   methods: {
     ...mapActions('planets', ['getPlanets']),
-    ...mapMutations('planets', ['addPlanet', 'deletePlanet', 'updatePlanet']),
+    ...mapMutations('planets', [ADD_PLANET, UPDATE_PLANET, DELETE_PLANET]),
     clear() {
       this.addingPlanet = false;
       this.selectedPlanet = null;
     },
     deletePlanetAndReset(planet) {
-      this.deletePlanet(planet);
+      this.DELETE_PLANET(planet);
       this.clear();
     },
     enableAddMode() {
@@ -61,7 +62,8 @@ export default {
     },
     save(arg) {
       const planet = arg.planet;
-      arg.mode === 'add' ? this.addPlanet(planet) : this.updatePlanet(planet);
+      console.log('planet changed', planet);
+      arg.mode === 'add' ? this.ADD_PLANET(planet) : this.UPDATE_PLANET(planet);
     },
   },
 };

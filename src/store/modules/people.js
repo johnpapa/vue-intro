@@ -1,5 +1,11 @@
 import config from '@/shared/config';
 import axios from 'axios';
+import {
+  ADD_PERSON,
+  DELETE_PERSON,
+  GET_PEOPLE,
+  UPDATE_PERSON,
+} from './mutation-types';
 
 const { API } = config;
 
@@ -10,18 +16,18 @@ export default {
     people: [],
   },
   mutations: {
-    addPerson(state, person) {
+    [ADD_PERSON](state, person) {
       state.people.push(person);
     },
-    updatePerson(state, person) {
+    [UPDATE_PERSON](state, person) {
       state.people = [...state.people.filter(p => p.id !== person.id), person];
       // const index = this.people.findIndex(h => person.id === h.id);
       // this.people.splice(index, 1, person);
     },
-    getPeople(state, people) {
+    [GET_PEOPLE](state, people) {
       state.people = people;
     },
-    deletePerson(state, person) {
+    [DELETE_PERSON](state, person) {
       state.people = state.people.filter(p => p.id !== person.id);
     },
   },
@@ -36,7 +42,7 @@ export default {
             p.id = index++;
             return p;
           });
-          commit('getPeople', people);
+          commit(GET_PEOPLE, people);
           return people;
         })
         .catch(console.error);
