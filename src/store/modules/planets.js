@@ -17,7 +17,8 @@ export default {
   },
   mutations: {
     [ADD_PLANET](state, planet) {
-      state.planets.push(planet);
+      // state.planets.push(planet); // mutable addition
+      state.planets = [...state.planets, planet]; // replace the array, still mutating state
     },
     [UPDATE_PLANET](state, planet) {
       state.planets = [
@@ -53,10 +54,9 @@ export default {
   },
   getters: {
     // selectors
+    planets: state => state.people,
     sortedPlanets(state) {
-      return [...state.planets].sort((a, b) => {
-        return a.id - b.id;
-      });
+      return [...state.planets].sort((a, b) => a.id - b.id);
     },
   },
 };

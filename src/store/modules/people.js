@@ -17,12 +17,12 @@ export default {
   },
   mutations: {
     [ADD_PERSON](state, person) {
-      state.people.push(person);
+      state.people.push(person); // mutable addition
     },
     [UPDATE_PERSON](state, person) {
       state.people = [...state.people.filter(p => p.id !== person.id), person];
-      // const index = this.people.findIndex(h => person.id === h.id);
-      // this.people.splice(index, 1, person);
+      // const index = state.people.findIndex(h => person.id === h.id);
+      // state.people.splice(index, 1, person);
     },
     [GET_PEOPLE](state, people) {
       state.people = people;
@@ -50,10 +50,9 @@ export default {
   },
   getters: {
     // selectors
+    people: state => state.people,
     sortedPeople(state) {
-      return [...state.people].sort((a, b) => {
-        return a.id - b.id;
-      });
+      return [...state.people].sort((a, b) => a.id - b.id);
     },
   },
 };
